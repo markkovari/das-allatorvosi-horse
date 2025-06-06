@@ -6,6 +6,7 @@
 	"scripts": {
 		"build": "turbo run build",
 		"start:backend": "turbo run --filter backend start",
+		"start:frontend": "turbo run --filter frontend start",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"keywords": [],
