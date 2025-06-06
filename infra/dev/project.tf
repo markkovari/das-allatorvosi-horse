@@ -20,20 +20,55 @@ resource "digitalocean_database_cluster" "database" {
 }
 
 
-resource "digitalocean_app" "frontend" {
+resource "digitalocean_app" "app" {
   project_id = digitalocean_project.project_dev.id
   spec {
-    name   = "frontend"
+    name   = "app"
     region = "fra"
 
     static_site {
-      name          = "frontend-site"
+      name          = "frontend"
       build_command = "pnpm run build --filter frontend"
       output_dir    = "./apps/frontend/dist"
 
       github {
         repo   = "markkovari/das-allatorvosi-horse"
         branch = "main"
+      }
+    }
+    ingress {
+      rule {
+        match {
+          path {
+            prefix = "/"
+          }
+        }
+        component {
+          name = "frontend"
+        }
+      }
+      rule {
+        match {
+          path {
+            prefix = "/api"
+          }
+        }
+        component {
+          name = "backend"
+        }
+      }
+    }
+    service {
+      name          = "backend"
+      build_command = "pnpm run build --filter backend"
+      run_command   = "node ./apps/backend/dist/index.js"
+      github {
+        repo   = "markkovari/das-allatorvosi-horse"
+        branch = "main"
+      }
+      env {
+        key   = "YES"
+        value = "NO"
       }
     }
   }
