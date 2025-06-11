@@ -1,0 +1,44 @@
+name: "continuous integration"
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ts-project-checks:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [22]
+        envs:
+          - dev
+          - test
+          - prod
+    defaults:
+      run:
+        working-directory: "./infra/${{matrix.envs}}"
+    env:
+      TF_do_token: ${{ secrets.DO_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+      - run: terraform init
+      - name: run fmt
+        run: terraform fmt
+
+      - name: run validate
+        run: terraform validate
+      - name: run plan
+        id:  plan
+        run: terraform plan -no-color
+      - run: echo ${{ steps.plan.outputs.stdout }}
+      - run: echo ${{ steps.plan.outputs.stderr }}
+      - run: echo ${{ steps.plan.outputs.exitcode }}
