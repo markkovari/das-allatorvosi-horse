@@ -32,6 +32,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.5.7
       - run: terraform init
       - name: run fmt
         run: terraform fmt
