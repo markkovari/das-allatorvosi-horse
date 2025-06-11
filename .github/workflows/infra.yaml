@@ -1,4 +1,4 @@
-name: "continuous integration"
+name: "infra setup"
 
 on:
   pull_request:
@@ -12,6 +12,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  TF_do_token: ${{ secrets.DO_TOKEN }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 jobs:
   setup-envs:
     runs-on: ubuntu-latest
@@ -25,10 +29,6 @@ jobs:
     defaults:
       run:
         working-directory: "./infra/${{matrix.envs}}"
-    env:
-      TF_do_token: ${{ secrets.DO_TOKEN }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
