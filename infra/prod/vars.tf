@@ -4,7 +4,8 @@ variable "do_token" {
   description = "digitalocean token"
 }
 
-
 variable "project_name" {
-  default = "dev"
+  default = "prod"
 }
+
+
