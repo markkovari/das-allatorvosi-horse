@@ -1,5 +1,5 @@
 resource "digitalocean_project" "project_dev" {
-  name        = concat(var.project_name, "dev")
+  name        = "das-allatorvosi-horse-${var.project_name}"
   is_default  = false
   environment = "Development"
 }
@@ -10,7 +10,7 @@ resource "digitalocean_database_postgresql_config" "db_config" {
 }
 
 resource "digitalocean_database_cluster" "database" {
-  name       = concat("das-allaorvosi-horse-database", var.project_name)
+  name       = "das-allaorvosi-horse-database-${var.project_name}"
   engine     = "pg"
   version    = "17"
   size       = "db-s-1vcpu-1gb"
