@@ -20,8 +20,8 @@ jobs:
         node-version: [22]
         envs:
           - dev
-          - test
-          - prod
+          # - test
+          # - prod
     defaults:
       run:
         working-directory: "./infra/${{matrix.envs}}"
