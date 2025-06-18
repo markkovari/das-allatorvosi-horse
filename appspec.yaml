@@ -15,7 +15,7 @@ ingress:
 name: bobocats-app
 region: fra
 services:
-- environment_slug: node-js
+- environment_slug: backend
   github:
     branch: main
     repo: markkovari/das-allatorvosi-horse
