@@ -24,6 +24,6 @@ services:
   instance_size_slug: apps-s-1vcpu-0.5gb
   name: das-allatorvosi-horse
   source_dir: /
-  run_command: pnpm run start:backend
   build_command: pnpm run build
+  run_command: pnpm run start:backend
 
