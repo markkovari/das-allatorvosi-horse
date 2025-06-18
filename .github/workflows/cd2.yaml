@@ -21,14 +21,12 @@ jobs:
           token: ${{ secrets.DO_TOKEN }}
           app_name: bobocats-app-test
           wait_for_deploy: true
+
       - uses: trstringer/manual-approval@v1
         with:
           secret: ${{ github.TOKEN }}
-          approvers: markkovari,rdg5
-          minimum-approvals: 1
           issue-title: "Deploying v1.3.5 to prod from staging"
           issue-body: "Please approve or deny the deployment of version v1.3.5."
-          issue-body-file-path: relative/file_path/wrt/repo/root
           exclude-workflow-initiator-as-approver: false
           fail-on-denial: true
           additional-approved-words: ''
