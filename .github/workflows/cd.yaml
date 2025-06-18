@@ -1,0 +1,45 @@
+# name: Deploy to DigitalOcean App Platform
+
+on:
+  push:
+    # Trigger the workflow on pushes to the 'main' branch
+    # You can change 'main' to 'master', 'production', or any other branch
+    branches:
+      - main
+  # Optional: Allows you to manually trigger the workflow from the GitHub Actions UI
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest # The runner environment for the job
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4 # Action to checkout your repository code
+
+      - name: Deploy to DigitalOcean App Platform
+        uses: digitalocean/app_platform_deploy_action@v1.2.0 # Official DO deploy action
+        with:
+          # REQUIRED: Your DigitalOcean API token. Stored as a GitHub Secret.
+          do_token: ${{ secrets.DO_TOKEN }}
+
+          # REQUIRED: The name of your DigitalOcean App Platform app.
+          # This name must match the 'name' field in your appspec.yaml
+          # and also the name of the app you created in the DO UI.
+          app_name:  bobocats-app # IMPORTANT: Replace with your actual App Platform app name
+
+          # OPTIONAL: Path to your appspec.yaml file relative to the repo root.
+          # Defaults to 'appspec.yaml' if not specified.
+          # spec_path: ./appspec.yaml
+
+          # OPTIONAL: Specify the source commit hash or tag to deploy.
+          # Defaults to the commit hash that triggered the workflow.
+          # commit_hash: ${{ github.sha }}
+
+          # OPTIONAL: Wait for the deployment to finish before the action completes.
+          # Recommended for CI/CD pipelines. Defaults to true.
+          wait_for_deploy: true
+
+          # OPTIONAL: Timeout for waiting for the deployment to finish in seconds.
+          # Defaults to 600 seconds (10 minutes).
+          # wait_timeout: 900
