@@ -21,7 +21,7 @@ jobs:
         uses: digitalocean/app_action/deploy@v2
         with:
           # REQUIRED: Your DigitalOcean API token. Stored as a GitHub Secret.
-          do_token: ${{ secrets.DO_TOKEN }}
+          token: ${{ secrets.DO_TOKEN }}
 
           # REQUIRED: The name of your DigitalOcean App Platform app.
           # This name must match the 'name' field in your appspec.yaml
